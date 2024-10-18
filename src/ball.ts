@@ -26,6 +26,7 @@ export class Ball {
 	draw(ctx: CanvasRenderingContext2D): void {
 		ctx.beginPath();
 		ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 360);
+		ctx.fill();
 		ctx.stroke();
 	}
 	moveTo(toPos: Vector) {
