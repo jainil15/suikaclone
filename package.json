@@ -1,0 +1,14 @@
+{
+  "name": "suikaclone-web",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "bun build ./src/index.ts --outfile=./bundle/bundle.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
