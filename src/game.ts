@@ -11,10 +11,15 @@ export class Game {
 	input: InputHandler;
 	canvas: HTMLCanvasElement;
 	constructor(canvas: HTMLCanvasElement) {
-		this.cloud = new Cloud(new Vector(80, 80));
 		this.balls = [];
 		this.input = new InputHandler(canvas);
 		this.box = new Box(400, 400);
+		this.cloud = new Cloud(
+			new Vector(
+				this.box.pos.x + this.box.width / 2 - 40,
+				this.box.pos.y - this.box.height - 90,
+			),
+		);
 		this.input.addPointerMoveHandler((e: PointerEvent) =>
 			this.handlePointerMove(e),
 		);
@@ -25,19 +30,28 @@ export class Game {
 	}
 	handlePointerMove(e: PointerEvent): void {
 		const rect = this.canvas.getBoundingClientRect();
-		this.cloud.pos.x = e.clientX - rect.x - 50;
+		const posX = e.clientX - rect.x - this.cloud.width / 2;
+		if (
+			posX > this.box.pos.x &&
+			posX < this.box.pos.x + this.box.width - this.cloud.width
+		) {
+			this.cloud.pos.x = posX;
+		} else if (posX > this.box.pos.x + this.box.width - this.cloud.width) {
+			this.cloud.pos.x = this.box.pos.x + this.box.width - this.cloud.width;
+		} else if (posX < this.box.pos.x) {
+			this.cloud.pos.x = this.box.pos.x;
+		}
 	}
 	handlePointerClickHandler(e: PointerEvent): void {
-		const rect = this.canvas.getBoundingClientRect();
-		const cloudPos = new Vector(e.clientX - rect.x, e.clientY);
-		this.balls.push(new Ball(cloudPos, 10));
+		const cloudPos = new Vector(
+			this.cloud.pos.x + this.cloud.width / 2,
+			this.cloud.pos.y + this.cloud.height,
+		);
+		this.balls.push(new Ball(cloudPos, 20));
 	}
 	update(): void {
 		for (let i = 0; i < this.balls.length; i++) {
-			this.balls[i].update();
-			if (this.balls[i].pos.y > 200) {
-				this.balls.splice(i, 1);
-			}
+			this.balls[i].update(this.box.pos.y);
 		}
 	}
 	draw(ctx: CanvasRenderingContext2D): void {

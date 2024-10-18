@@ -16,7 +16,7 @@ export class Box {
 	}
 	draw(ctx: CanvasRenderingContext2D): void {
 		ctx.beginPath();
-		console.log(this.pos);
+		// console.log(this.pos);
 		ctx.moveTo(this.pos.x, this.pos.y);
 		ctx.lineTo(this.pos.x, this.pos.y - this.height);
 
@@ -25,6 +25,7 @@ export class Box {
 
 		ctx.lineTo(this.pos.x + this.width, this.pos.y - this.height);
 
+		ctx.lineWidth = 3;
 		ctx.stroke();
 	}
 }

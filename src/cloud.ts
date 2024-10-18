@@ -3,6 +3,8 @@ import { Vector } from "./vector";
 
 export class Cloud {
 	pos: Vector;
+	width = 80;
+	height = 80;
 	constructor(pos: Vector) {
 		this.pos = pos;
 	}
