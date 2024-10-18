@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     // Enable latest features
+
     "lib": ["ESNext", "DOM"],
+    "sourceMap": true,
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",

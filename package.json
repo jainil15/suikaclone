@@ -3,12 +3,17 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build ./src/index.ts --outfile=./bundle/bundle.js"
+    "build": "bun build index.ts --outfile=./bundle/bundle.js",
+    "watch": "bun --watch build index.ts --outfile=./bundle/bundle.js"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "vite": "^5.4.9"
   }
 }
