@@ -10,37 +10,46 @@ export class Ball {
 	frictionMul = 0.005;
 	mass: number;
 	color = "black";
-	static balls: Ball[] = [];
 	constructor(pos: Vector, radius: number) {
 		this.pos = pos;
 		this.speed = new Vector(1, 0);
 		this.radius = radius;
 		this.mass = radius;
-		Ball.balls.push(this);
 	}
-	update(index: number, left: number, right: number, bottom: number): void {
-		// this.gravity += 0.05;
-		// this.speed.x -= this.speed.x * this.frictionMul;
-		// this.pos.y += this.gravity;
-		// this.pos.x += this.speed.x;
+	update(
+		balls: Ball[],
+		index: number,
+		left: number,
+		right: number,
+		bottom: number,
+	): void {
 		if (this.speed.x < 0.0001) {
 			this.speed.x = 0;
 		}
-		this.hitBalls(index);
+		this.hitBalls(balls, index);
 		this.speed.y += this.gravity;
 		this.speed.x -= this.speed.x * this.frictionMul;
 		this.pos.add(this.speed);
 		this.hitBoundry(left, right, bottom);
 	}
-	hitBalls(index: number): void {
-		for (const ball of Ball.balls.slice(index + 1)) {
+	hitBalls(balls: Ball[], index: number): void {
+		for (const ball of balls.slice(index + 1)) {
 			let d = Vector.zero();
 			d.x = ball.pos.x - this.pos.x;
 			d.y = ball.pos.y - this.pos.y;
 			let distance = d.distance();
 			if (distance < ball.radius + this.radius) {
+				if (ball.radius == this.radius) {
+					this.radius *= 2;
+					balls.splice(balls.indexOf(this) - 1, 1);
+				}
 				const normalized = d.normalized();
 				const rSpeed = this.speed.clone();
+				const correction = normalized.clone();
+				correction.mulConstanct(0.02);
+				this.pos.sub(correction);
+				ball.pos.add(correction);
+
 				rSpeed.sub(ball.speed);
 				const speed = normalized.x * rSpeed.x + normalized.y * rSpeed.y;
 				console.log(speed);
@@ -56,7 +65,7 @@ export class Ball {
 				// elasticity ?
 				this.speed.y = this.speed.y * 0.05;
 				ball.speed.y = ball.speed.y * 0.05;
-				const displacement = ball.radius + this.radius - distance + 1;
+				const displacement = ball.radius + this.radius - distance;
 				if (ball.pos.x > this.pos.x) {
 					ball.pos.x += displacement;
 					this.pos.x -= displacement;

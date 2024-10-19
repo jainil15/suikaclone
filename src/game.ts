@@ -52,6 +52,7 @@ export class Game {
 	update(): void {
 		for (let i = 0; i < this.balls.length; i++) {
 			this.balls[i].update(
+				this.balls,
 				i,
 				this.box.pos.x,
 				this.box.pos.x + this.box.width,
