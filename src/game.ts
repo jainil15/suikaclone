@@ -51,7 +51,12 @@ export class Game {
 	}
 	update(): void {
 		for (let i = 0; i < this.balls.length; i++) {
-			this.balls[i].update(this.box.pos.y);
+			this.balls[i].update(
+				i,
+				this.box.pos.x,
+				this.box.pos.x + this.box.width,
+				this.box.pos.y,
+			);
 		}
 	}
 	draw(ctx: CanvasRenderingContext2D): void {

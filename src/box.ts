@@ -27,5 +27,6 @@ export class Box {
 
 		ctx.lineWidth = 3;
 		ctx.stroke();
+  
 	}
 }
